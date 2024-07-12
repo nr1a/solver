@@ -64,9 +64,8 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify({ name: achievement })
+                body: JSON.stringify({ name: achievement, i: token })
             });
 
             if (response.ok) {
@@ -86,9 +85,8 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ name: achievement })
+                    body: JSON.stringify({ name: achievement, i: token })
                 });
 
                 if (!response.ok) {
@@ -108,9 +106,8 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ name: achievement })
+                    body: JSON.stringify({ name: achievement, i: token })
                 });
 
                 if (!response.ok) {
@@ -133,7 +130,7 @@
     <input type="text" id="achievement" placeholder="Enter achievement name"><br><br>
 
     <button onclick="claimAchievement()">Claim Achievement</button><br><br>
-    <button onclick="claimAllAchievementsV1()">Claim All Achievements(Latest)</button><br><br>
-    <button onclick="claimAllAchievementsV2()">Claim All Achievements(v13)</button>
+    <button onclick="claimAllAchievementsV1()">Claim All Achievements (Latest)</button><br><br>
+    <button onclick="claimAllAchievementsV2()">Claim All Achievements (v13)</button>
 </body>
 </html>
