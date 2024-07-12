@@ -64,6 +64,7 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Referer": domain,
                 },
                 body: JSON.stringify({ name: achievement, i: token })
             });
@@ -85,6 +86,7 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Referer": domain,
                     },
                     body: JSON.stringify({ name: achievement, i: token })
                 });
@@ -106,6 +108,7 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Referer": domain,
                     },
                     body: JSON.stringify({ name: achievement, i: token })
                 });
