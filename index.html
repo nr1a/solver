@@ -1,65 +1,161 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>Achievement Claim</title>
+    <style>
+        body {
+            background-color: #faf3f3;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #ffb3c1;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1em;
+            color: #7d5a5a;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            width: 300px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ffb3c1;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffb3c1;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffccd6;
+        }
+
+        button:active {
+            background-color: #e6a3a8;
+        }
+
+        button:disabled {
+            background-color: #f7d9dd;
+            cursor: not-allowed;
+        }
+
+        input::placeholder {
+            color: #b3b3b3;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Achievement Claim</h1>
+        <div>
+            <label for="domain">Domain:</label><br>
+            <input type="text" id="domain" placeholder="Enter your domain (e.g., https://misskey.io)">
+        </div>
+        <div>
+            <label for="token">Token:</label><br>
+            <input type="text" id="token" placeholder="Enter your token">
+        </div>
+        <div>
+            <label for="achievement">Achievement:</label><br>
+            <input type="text" id="achievement" placeholder="Enter achievement name">
+        </div>
+        <button onclick="claimAchievement()">Claim Achievement</button><br><br>
+        <button onclick="claimAllAchievementsV1()">Claim All Achievements (Latest)</button><br><br>
+        <button onclick="claimAllAchievementsV2()">Claim All Achievements (Old)</button>
+    </div>
     <script>
         const achievementsV1 = [
-            "notes1", "notes10", "notes100", "notes500", "notes1000", 
-            "notes5000", "notes10000", "notes20000", "notes30000", 
-            "notes40000", "notes50000", "notes60000", "notes70000", 
-            "notes80000", "notes90000", "notes100000", "login3", 
-            "login7", "login15", "login30", "login60", "login100", 
-            "login200", "login300", "login400", "login500", "login600", 
-            "login700", "login800", "login900", "login1000", 
-            "passedSinceAccountCreated1", "passedSinceAccountCreated2", 
-            "passedSinceAccountCreated3", "loggedInOnBirthday", 
-            "loggedInOnNewYearsDay", "noteClipped1", "noteFavorited1", 
-            "myNoteFavorited1", "profileFilled", "markedAsCat", 
-            "following1", "following10", "following50", "following100", 
-            "following300", "followers1", "followers10", "followers50", 
-            "followers100", "followers300", "followers500", "followers1000", 
-            "collectAchievements30", "viewAchievements3min", "iLoveMisskey", 
-            "foundTreasure", "client30min", "noteDeletedWithin1min", 
-            "postedAtLateNight", "postedAt0min0sec", "selfQuote", 
-            "htl20npm", "viewInstanceChart", "outputHelloWorldOnScratchpad", 
-            "open3windows", "driveFolderCircularReference", "reactWithoutRead", 
-            "clickedClickHere", "justPlainLucky", "setNameToSyuilo", 
-            "cookieClicked", "brainDiver", "smashTestNotificationButton", 
-            "tutorialCompleted", "bubbleGameExplodingHead", 
+            "notes1", "notes10", "notes100", "notes500", "notes1000",
+            "notes5000", "notes10000", "notes20000", "notes30000",
+            "notes40000", "notes50000", "notes60000", "notes70000",
+            "notes80000", "notes90000", "notes100000", "login3",
+            "login7", "login15", "login30", "login60", "login100",
+            "login200", "login300", "login400", "login500", "login600",
+            "login700", "login800", "login900", "login1000",
+            "passedSinceAccountCreated1", "passedSinceAccountCreated2",
+            "passedSinceAccountCreated3", "loggedInOnBirthday",
+            "loggedInOnNewYearsDay", "noteClipped1", "noteFavorited1",
+            "myNoteFavorited1", "profileFilled", "markedAsCat",
+            "following1", "following10", "following50", "following100",
+            "following300", "followers1", "followers10", "followers50",
+            "followers100", "followers300", "followers500", "followers1000",
+            "collectAchievements30", "viewAchievements3min", "iLoveMisskey",
+            "foundTreasure", "client30min", "noteDeletedWithin1min",
+            "postedAtLateNight", "postedAt0min0sec", "selfQuote",
+            "htl20npm", "viewInstanceChart", "outputHelloWorldOnScratchpad",
+            "open3windows", "driveFolderCircularReference", "reactWithoutRead",
+            "clickedClickHere", "justPlainLucky", "setNameToSyuilo",
+            "cookieClicked", "brainDiver", "smashTestNotificationButton",
+            "tutorialCompleted", "bubbleGameExplodingHead",
             "bubbleGameDoubleExplodingHead"
         ];
 
         const achievementsV2 = [
-            "notes1", "notes10", "notes100", "notes500", "notes1000", 
-            "notes5000", "notes10000", "notes20000", "notes30000", 
-            "notes40000", "notes50000", "notes60000", "notes70000", 
-            "notes80000", "notes90000", "notes100000", "login3", 
-            "login7", "login15", "login30", "login60", "login100", 
-            "login200", "login300", "login400", "login500", "login600", 
-            "login700", "login800", "login900", "login1000", 
-            "passedSinceAccountCreated1", "passedSinceAccountCreated2", 
-            "passedSinceAccountCreated3", "loggedInOnBirthday", 
-            "loggedInOnNewYearsDay", "noteClipped1", "noteFavorited1", 
-            "myNoteFavorited1", "profileFilled", "markedAsCat", 
-            "following1", "following10", "following50", "following100", 
-            "following300", "followers1", "followers10", "followers50", 
-            "followers100", "followers300", "followers500", "followers1000", 
-            "collectAchievements30", "viewAchievements3min", "iLoveMisskey", 
-            "foundTreasure", "client30min", "noteDeletedWithin1min", 
-            "postedAtLateNight", "postedAt0min0sec", "selfQuote", 
-            "htl20npm", "viewInstanceChart", "outputHelloWorldOnScratchpad", 
-            "open3windows", "driveFolderCircularReference", "reactWithoutRead", 
-            "clickedClickHere", "justPlainLucky", "setNameToSyuilo", 
+            "notes1", "notes10", "notes100", "notes500", "notes1000",
+            "notes5000", "notes10000", "notes20000", "notes30000",
+            "notes40000", "notes50000", "notes60000", "notes70000",
+            "notes80000", "notes90000", "notes100000", "login3",
+            "login7", "login15", "login30", "login60", "login100",
+            "login200", "login300", "login400", "login500", "login600",
+            "login700", "login800", "login900", "login1000",
+            "passedSinceAccountCreated1", "passedSinceAccountCreated2",
+            "passedSinceAccountCreated3", "loggedInOnBirthday",
+            "loggedInOnNewYearsDay", "noteClipped1", "noteFavorited1",
+            "myNoteFavorited1", "profileFilled", "markedAsCat",
+            "following1", "following10", "following50", "following100",
+            "following300", "followers1", "followers10", "followers50",
+            "followers100", "followers300", "followers500", "followers1000",
+            "collectAchievements30", "viewAchievements3min", "iLoveMisskey",
+            "foundTreasure", "client30min", "noteDeletedWithin1min",
+            "postedAtLateNight", "postedAt0min0sec", "selfQuote",
+            "htl20npm", "viewInstanceChart", "outputHelloWorldOnScratchpad",
+            "open3windows", "driveFolderCircularReference", "reactWithoutRead",
+            "clickedClickHere", "justPlainLucky", "setNameToSyuilo",
             "cookieClicked", "brainDiver", "princess"
         ];
 
-        async function claimAchievement() {
-            const domain = document.getElementById("domain").value;
-            const token = document.getElementById("token").value;
-            const achievement = document.getElementById("achievement").value;
+        async function claimAchievementAPI(domain, token, achievement) {
             const url = `${domain}/api/i/claim-achievement`;
-
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -68,7 +164,14 @@
                 },
                 body: JSON.stringify({ name: achievement, i: token })
             });
+            return response;
+        }
 
+        async function claimAchievement() {
+            const domain = document.getElementById("domain").value;
+            const token = document.getElementById("token").value;
+            const achievement = document.getElementById("achievement").value;
+            const response = await claimAchievementAPI(domain, token, achievement);
             if (response.ok) {
                 alert(`Claimed achievement: ${achievement}`);
             } else {
@@ -76,64 +179,27 @@
             }
         }
 
-        async function claimAllAchievementsV1() {
+        async function claimAllAchievements(achievements) {
             const domain = document.getElementById("domain").value;
             const token = document.getElementById("token").value;
-            const url = `${domain}/api/i/claim-achievement`;
-
-            for (const achievement of achievementsV1) {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Referer": domain,
-                    },
-                    body: JSON.stringify({ name: achievement, i: token })
-                });
-
+            for (const achievement of achievements) {
+                const response = await claimAchievementAPI(domain, token, achievement);
                 if (!response.ok) {
                     alert(`Error claiming achievement: ${achievement}`);
+                    return; // Stop the loop on first error
                 }
             }
-            alert("Claimed all V1 achievements.");
+            alert(`Claimed all achievements.`);
+        }
+
+        async function claimAllAchievementsV1() {
+            await claimAllAchievements(achievementsV1);
         }
 
         async function claimAllAchievementsV2() {
-            const domain = document.getElementById("domain").value;
-            const token = document.getElementById("token").value;
-            const url = `${domain}/api/i/claim-achievement`;
-
-            for (const achievement of achievementsV2) {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Referer": domain,
-                    },
-                    body: JSON.stringify({ name: achievement, i: token })
-                });
-
-                if (!response.ok) {
-                    alert(`Error claiming achievement: ${achievement}`);
-                }
-            }
-            alert("Claimed all V2 achievements.");
+            await claimAllAchievements(achievementsV2);
         }
     </script>
-</head>
-<body>
-    <h1>Achievement Claim</h1>
-    <label for="domain">Domain:</label>
-    <input type="text" id="domain" placeholder="Enter your domain (e.g., https://misskey.io)"><br><br>
-
-    <label for="token">Token:</label>
-    <input type="text" id="token" placeholder="Enter your token"><br><br>
-
-    <label for="achievement">Achievement:</label>
-    <input type="text" id="achievement" placeholder="Enter achievement name"><br><br>
-
-    <button onclick="claimAchievement()">Claim Achievement</button><br><br>
-    <button onclick="claimAllAchievementsV1()">Claim All Achievements (Latest)</button><br><br>
-    <button onclick="claimAllAchievementsV2()">Claim All Achievements (v13)</button>
 </body>
+
 </html>
